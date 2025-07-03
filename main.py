@@ -10,7 +10,7 @@ app = Flask(__name__)
 app.secret_key = 'e2c74d50-7b1f-4305-9d0b-9dd0b833d420'  # Your actual secret key
 
 # Stripe config
-stripe.api_key = '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'
+stripe.api_key = os.getenv('STRIPE_SECRET_KEY')
 YOUR_DOMAIN = 'https://7574f864-a1b3-4b31-bd4d-4b28320e378f-00-e600379fq3za.kirk.replit.dev'
 
 @app.route('/')
