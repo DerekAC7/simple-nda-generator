@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Payment Successful</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      background-color: #f8f9fa;
+      padding: 2rem;
+      text-align: center;
+      color: #333;
+    }
+    .card {
+      max-width: 500px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 8px;
+      padding: 2rem;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+    }
+    h1 {
+      color: #28a745;
+    }
+    button {
+      margin-top: 1rem;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      background-color: #007bff;
+      border: none;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    a {
+      display: block;
+      margin-top: 1.5rem;
+      color: #007bff;
+      text-decoration: none;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>✅ Payment Successful</h1>
+    <p>Your NDA is ready to download.</p>
+
+    <form action="/download" method="GET">
+      <button type="submit">Download NDA PDF</button>
+    </form>
+
+    <a href="/">Generate Another NDA</a>
+  </div>
+</body>
+</html>

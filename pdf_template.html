@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    @page {
+      size: A4;
+      margin: 40px;
+    }
+
+    body {
+      font-family: "Helvetica", sans-serif;
+      font-size: 12pt;
+      line-height: 1.6;
+      color: #000;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 16pt;
+      margin-bottom: 24px;
+    }
+
+    p {
+      margin: 12px 0;
+    }
+
+    ul {
+      margin: 0 0 12px 20px;
+      padding: 0;
+    }
+
+    li {
+      margin: 4px 0;
+    }
+
+    .signature-block {
+      margin-top: 40px;
+    }
+
+    .sig-line {
+      margin-top: 40px;
+    }
+
+    .name {
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>NON-DISCLOSURE AGREEMENT</h1>
+
+  <p>This Non-Disclosure Agreement ("Agreement") is made and entered into as of {{ nda_data.effective_date }}, by and between {{ nda_data.party1_name }}, with an address at {{ nda_data.party1_address }}, and {{ nda_data.party2_name }}, with an address at {{ nda_data.party2_address }}.</p>
+
+  <p><strong>1. Purpose.</strong>
+    {% if nda_data.is_mutual %}
+      The Parties intend to engage in discussions regarding {{ nda_data.purpose }}. Each party may disclose and receive confidential information ("Confidential Information") as part of this mutual relationship.
+    {% else %}
+      The Parties intend to engage in discussions regarding {{ nda_data.purpose }}. {{ nda_data[nda_data.discloser + '_name'] }} (the "Disclosing Party") may disclose confidential information ("Confidential Information") to {{ nda_data['party1_name'] if nda_data.discloser == 'party2' else nda_data['party2_name'] }} (the "Receiving Party") as part of this relationship.
+    {% endif %}
+  </p>
+
+  <p><strong>2. Definition of Confidential Information.</strong> Confidential Information includes, without limitation, business plans, customer lists, trade secrets, financial information, strategies, proprietary software, marketing data, and other information that a reasonable person would understand to be confidential.</p>
+
+  <p><strong>3. Exclusions.</strong></p>
+  <ul>
+    <li>a. Is or becomes publicly known without breach of this Agreement;</li>
+    <li>b. Is lawfully received from a third party without restriction;</li>
+    <li>c. Was already known by the Receiving Party prior to disclosure;</li>
+    <li>d. Is independently developed by the Receiving Party without use of the Confidential Information.</li>
+  </ul>
+
+  <p><strong>4. Obligations of {% if nda_data.is_mutual %}Each Party{% else %}the Receiving Party{% endif %}.</strong></p>
+  <ul>
+    <li>a. Use the Confidential Information solely for the Purpose stated above;</li>
+    <li>b. Not disclose it to any third party without prior written consent of the Disclosing Party;</li>
+    <li>c. Take reasonable measures to protect the Confidential Information from unauthorized disclosure.</li>
+  </ul>
+
+  <p><strong>5. Legal Disclosure.</strong> If a party is required by law to disclose Confidential Information, it shall notify the other and cooperate in seeking a protective order.</p>
+
+  <p><strong>6. Return or Destruction.</strong> Upon request, each party shall return or destroy all Confidential Information of the other.</p>
+
+  <p><strong>7. No License or Obligation.</strong> Nothing in this Agreement grants any license or commits either Party to a business relationship.</p>
+
+  <p><strong>8. Equitable Relief.</strong> A breach may cause irreparable harm, and the affected party may seek equitable relief in addition to other remedies.</p>
+
+  <p><strong>9. Governing Law.</strong> This Agreement shall be governed by the laws of the State of {{ nda_data.state_law }}. The Parties agree to jurisdiction in {{ nda_data.county }} County, {{ nda_data.state_law }}.</p>
+
+  <p><strong>10. Term.</strong> This Agreement remains in effect for {{ nda_data.duration }} years from the effective date. Obligations related to confidentiality survive expiration or termination.</p>
+
+  <p>IN WITNESS WHEREOF, the Parties have executed this Agreement as of the date first written above.</p>
+
+  <div class="signature-block">
+    <div class="sig-line">______________________________</div>
+    <div class="name">{{ nda_data.party1_name }}</div>
+    <div>Date: __________________</div>
+
+    <div class="sig-line">______________________________</div>
+    <div class="name">{{ nda_data.party2_name }}</div>
+    <div>Date: __________________</div>
+  </div>
+</body>
+</html>

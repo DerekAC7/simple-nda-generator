@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Simple NDA Generator</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      background-color: #f8f9fa;
+      padding: 2rem;
+      color: #333;
+    }
+    .container {
+      max-width: 700px;
+      margin: auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+    }
+    h1 {
+      text-align: center;
+      color: #007bff;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    label {
+      font-weight: 600;
+    }
+    input, select {
+      padding: 0.5rem;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .mutual-toggle {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    button {
+      padding: 0.75rem;
+      font-size: 1rem;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+
+  <script>
+    const stateCounties = {
+      "California": ["Los Angeles", "San Diego", "Orange", "San Bernardino", "Riverside"],
+      "Texas": ["Harris", "Dallas", "Tarrant", "Bexar", "Travis"],
+      "New York": ["Kings", "Queens", "New York", "Suffolk", "Bronx"],
+      "Florida": ["Miami-Dade", "Broward", "Palm Beach", "Hillsborough", "Orange"],
+      "Illinois": ["Cook", "DuPage", "Lake", "Will", "Kane"],
+      "Pennsylvania": ["Philadelphia", "Allegheny", "Montgomery", "Bucks", "Delaware"],
+      "Ohio": ["Cuyahoga", "Franklin", "Hamilton", "Summit", "Montgomery"],
+      "Georgia": ["Fulton", "Gwinnett", "Cobb", "DeKalb", "Chatham"],
+      "North Carolina": ["Mecklenburg", "Wake", "Guilford", "Forsyth", "Durham"],
+      "Michigan": ["Wayne", "Oakland", "Macomb", "Kent", "Genesee"]
+    };
+
+    function toggleDisclosureSelect() {
+      const checkbox = document.getElementById("is_mutual");
+      const discloserDiv = document.getElementById("discloser_section");
+      discloserDiv.style.display = checkbox.checked ? "none" : "block";
+    }
+
+    function updateCountyDropdown() {
+      const state = document.getElementById("state_law").value;
+      const countySelect = document.getElementById("county");
+
+      countySelect.innerHTML = "";
+
+      if (stateCounties[state]) {
+        stateCounties[state].forEach(county => {
+          const option = document.createElement("option");
+          option.value = county;
+          option.text = county;
+          countySelect.appendChild(option);
+        });
+      } else {
+        const option = document.createElement("option");
+        option.text = "Select a state first";
+        countySelect.appendChild(option);
+      }
+    }
+  </script>
+</head>
+<body>
+  <div class="container">
+    <h1>Simple NDA Generator</h1>
+    <form action="/generate" method="POST">
+      <label>Party 1 Name</label>
+      <input type="text" name="party1_name" required>
+
+      <label>Party 1 Address</label>
+      <input type="text" name="party1_address" required>
+
+      <label>Party 2 Name</label>
+      <input type="text" name="party2_name" required>
+
+      <label>Party 2 Address</label>
+      <input type="text" name="party2_address" required>
+
+      <label>Effective Date</label>
+      <input type="date" name="effective_date" value="{{ date.today() }}" required>
+
+      <label>Agreement Duration (years)</label>
+      <input type="number" name="duration" min="1" max="10" value="2" required>
+
+      <label>State Governing Law</label>
+      <select name="state_law" id="state_law" onchange="updateCountyDropdown()" required>
+        <option value="">Select a state</option>
+        <option value="California">California</option>
+        <option value="Texas">Texas</option>
+        <option value="New York">New York</option>
+        <option value="Florida">Florida</option>
+        <option value="Illinois">Illinois</option>
+        <option value="Pennsylvania">Pennsylvania</option>
+        <option value="Ohio">Ohio</option>
+        <option value="Georgia">Georgia</option>
+        <option value="North Carolina">North Carolina</option>
+        <option value="Michigan">Michigan</option>
+      </select>
+
+      <label>County</label>
+      <select name="county" id="county" required>
+        <option value="">Select a state first</option>
+      </select>
+
+      <label>Purpose</label>
+      <select name="purpose" required>
+        <option value="a potential business relationship">a potential business relationship</option>
+        <option value="a possible licensing arrangement">a possible licensing arrangement</option>
+        <option value="a financing transaction">a financing transaction</option>
+        <option value="a partnership opportunity">a partnership opportunity</option>
+        <option value="a potential investment">a potential investment</option>
+      </select>
+
+      <div class="mutual-toggle">
+        <input type="checkbox" id="is_mutual" name="is_mutual" onclick="toggleDisclosureSelect()">
+        <label for="is_mutual">This is a Mutual NDA</label>
+      </div>
+
+      <div id="discloser_section">
+        <label>Which Party is the Discloser?</label>
+        <select name="discloser">
+          <option value="party1">Party 1</option>
+          <option value="party2">Party 2</option>
+        </select>
+      </div>
+
+      <button type="submit">Generate NDA</button>
+    </form>
+  </div>
+</body>
+</html>

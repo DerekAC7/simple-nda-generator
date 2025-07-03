@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Your NDA</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      background-color: #f2f2f2;
+      padding: 2rem;
+      color: #333;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 8px;
+      padding: 2rem;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+    .button-container {
+      margin-top: 2rem;
+      text-align: center;
+    }
+    button {
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      background-color: #007bff;
+      border: none;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    p {
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Your NDA Preview</h1>
+
+    <p>This Non-Disclosure Agreement ("Agreement") is made and entered into as of {{ nda_data.effective_date }}, by and between {{ nda_data.party1_name }}, with an address at {{ nda_data.party1_address }}, and {{ nda_data.party2_name }}, with an address at {{ nda_data.party2_address }}.</p>
+
+    <p>1. <strong>Purpose.</strong>
+      {% if nda_data.is_mutual %}
+        The Parties intend to engage in discussions regarding {{ nda_data.purpose }}. Both {{ nda_data.party1_name }} and {{ nda_data.party2_name }} (each a “Party”, and collectively, the “Parties”) may disclose and receive confidential information (“Confidential Information”) as part of this mutual relationship.
+      {% else %}
+        The Parties intend to engage in discussions regarding {{ nda_data.purpose }}. {{ nda_data[nda_data.discloser + '_name'] }} (the “Disclosing Party”) may disclose confidential information (“Confidential Information”) to {{ nda_data['party2_name'] if nda_data.discloser == 'party1' else nda_data['party1_name'] }} (the “Receiving Party”) as part of this relationship.
+      {% endif %}
+    </p>
+
+    <p>2. <strong>Definition of Confidential Information.</strong> Confidential Information includes, without limitation, business plans, customer lists, trade secrets, financial information, strategies, proprietary software, marketing data, and other information that a reasonable person would understand to be confidential.</p>
+
+    <p>3. <strong>Exclusions.</strong> Confidential Information does not include information that:<br>
+    a. Is or becomes publicly known without breach of this Agreement;<br>
+    b. Is lawfully received from a third party without restriction;<br>
+    c. Was already known by the {% if nda_data.is_mutual %}receiving Party{% else %}Receiving Party{% endif %} prior to disclosure;<br>
+    d. Is independently developed by the {% if nda_data.is_mutual %}receiving Party{% else %}Receiving Party{% endif %} without use of the Confidential Information.</p>
+
+    <p>4. <strong>Obligations of {% if nda_data.is_mutual %}Each Party{% else %}the Receiving Party{% endif %}.</strong>
+      {% if nda_data.is_mutual %}
+        Each Party shall:
+      {% else %}
+        The Receiving Party shall:
+      {% endif %}<br>
+      a. Use the Confidential Information solely for the Purpose stated above;<br>
+      b. Not disclose it to any third party without prior written consent of the Disclosing Party;<br>
+      c. Take reasonable measures to protect the Confidential Information from unauthorized disclosure.
+    </p>
+
+    <p>5. <strong>Legal Disclosure.</strong> If a Party is required by law to disclose Confidential Information, it shall notify the other and cooperate in seeking a protective order.</p>
+
+    <p>6. <strong>Return or Destruction.</strong> Upon request, each Party shall return or destroy all Confidential Information of the other.</p>
+
+    <p>7. <strong>No License or Obligation.</strong> Nothing in this Agreement grants any license or commits either Party to a business relationship.</p>
+
+    <p>8. <strong>Equitable Relief.</strong> A breach may cause irreparable harm, and the affected Party may seek equitable relief in addition to other remedies.</p>
+
+    <p>9. <strong>Governing Law.</strong> This Agreement shall be governed by the laws of the State of {{ nda_data.state_law }}. The Parties agree to jurisdiction in {{ nda_data.county }} County, {{ nda_data.state_law }}.</p>
+
+    <p>10. <strong>Term.</strong> This Agreement remains in effect for {{ nda_data.duration }} years from the effective date. Obligations related to confidentiality survive expiration or termination.</p>
+
+    <p>IN WITNESS WHEREOF, the Parties have executed this Agreement as of the date first written above.</p>
+
+    <div class="button-container">
+      <form action="/create-checkout-session" method="POST">
+        <input type="hidden" name="data" value='{{ nda_data | tojson | safe }}'>
+        <button type="submit">Buy to Unlock PDF with signatory lines ($0.99)</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
