@@ -8,7 +8,7 @@ import json
 import urllib.parse
 
 app = Flask(__name__)
-app.secret_key = os.environ.get('FLASK_SECRET_KEY')
+app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'dev-secret-key')
 
 # Stripe config
 stripe.api_key = os.environ.get('STRIPE_SECRET_KEY')
@@ -47,56 +47,6 @@ def create_checkout_session():
         return redirect(url_for('home'))
 
     encoded_data = urllib.parse.quote(json.dumps(nda_data))
-    success_url = f"{YOUR_DOMAIN}/download?paid=1&data={encoded_data}"
+    success_url = f"{YOUR_DOMAIN}/success?data={encoded_data}"
 
-    checkout_session = stripe.checkout.Session.create(
-        payment_method_types=['card'],
-        line_items=[{
-            'price': 'price_1Rgra4KtZU08gr8aurgZFYZE',
-            'quantity': 1,
-        }],
-        mode='payment',
-        success_url=success_url,
-        cancel_url=YOUR_DOMAIN + '/cancel',
-    )
-    return redirect(checkout_session.url, code=303)
-
-@app.route('/cancel')
-def cancel():
-    return "Payment was cancelled. Please try again."
-
-@app.route('/download')
-def download_pdf():
-    # Validate payment
-    if not session.get('paid') and request.args.get('paid') != '1':
-        return redirect(url_for('home'))
-
-    # Prefer session data
-    nda_data = session.get('nda_data')
-
-    # If session is empty, fall back to data param
-    if not nda_data:
-        raw_data = request.args.get('data')
-        if not raw_data:
-            return "Missing NDA data.", 400
-        try:
-            decoded_json = urllib.parse.unquote(raw_data)
-            nda_data = json.loads(decoded_json)
-        except Exception as e:
-            return f"Failed to parse NDA data: {e}", 400
-
-    # Generate PDF
-    nda_html = render_template('pdf_template.html', nda_data=nda_data)
-    pdf = BytesIO()
-    pisa_status = pisa.CreatePDF(nda_html, dest=pdf)
-
-    if pisa_status.err:
-        return "PDF generation failed", 500
-
-    response = make_response(pdf.getvalue())
-    response.headers['Content-Type'] = 'application/pdf'
-    response.headers['Content-Disposition'] = 'attachment; filename=nda.pdf'
-    return response
-
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=81)
+    checkout_session = st_
