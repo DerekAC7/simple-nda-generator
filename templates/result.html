@@ -61,10 +61,11 @@
     <p>2. <strong>Definition of Confidential Information.</strong> Confidential Information includes, without limitation, business plans, customer lists, trade secrets, financial information, strategies, proprietary software, marketing data, and other information that a reasonable person would understand to be confidential.</p>
 
     <p>3. <strong>Exclusions.</strong> Confidential Information does not include information that:<br>
-    a. Is or becomes publicly known without breach of this Agreement;<br>
-    b. Is lawfully received from a third party without restriction;<br>
-    c. Was already known by the {% if nda_data.is_mutual %}receiving Party{% else %}Receiving Party{% endif %} prior to disclosure;<br>
-    d. Is independently developed by the {% if nda_data.is_mutual %}receiving Party{% else %}Receiving Party{% endif %} without use of the Confidential Information.</p>
+      a. Is or becomes publicly known without breach of this Agreement;<br>
+      b. Is lawfully received from a third party without restriction;<br>
+      c. Was already known by the {% if nda_data.is_mutual %}receiving Party{% else %}Receiving Party{% endif %} prior to disclosure;<br>
+      d. Is independently developed by the {% if nda_data.is_mutual %}receiving Party{% else %}Receiving Party{% endif %} without use of the Confidential Information.
+    </p>
 
     <p>4. <strong>Obligations of {% if nda_data.is_mutual %}Each Party{% else %}the Receiving Party{% endif %}.</strong>
       {% if nda_data.is_mutual %}
