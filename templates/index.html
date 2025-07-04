@@ -94,6 +94,10 @@
         countySelect.appendChild(option);
       }
     }
+
+    window.onload = function () {
+      toggleDisclosureSelect();
+    };
   </script>
 </head>
 <body>
@@ -113,7 +117,7 @@
       <input type="text" name="party2_address" required>
 
       <label>Effective Date</label>
-      <input type="date" name="effective_date" value="{{ date.today() }}" required>
+      <input type="date" name="effective_date" value="{{ date }}" required>
 
       <label>Agreement Duration (years)</label>
       <input type="number" name="duration" min="1" max="10" value="2" required>
@@ -121,16 +125,9 @@
       <label>State Governing Law</label>
       <select name="state_law" id="state_law" onchange="updateCountyDropdown()" required>
         <option value="">Select a state</option>
-        <option value="California">California</option>
-        <option value="Texas">Texas</option>
-        <option value="New York">New York</option>
-        <option value="Florida">Florida</option>
-        <option value="Illinois">Illinois</option>
-        <option value="Pennsylvania">Pennsylvania</option>
-        <option value="Ohio">Ohio</option>
-        <option value="Georgia">Georgia</option>
-        <option value="North Carolina">North Carolina</option>
-        <option value="Michigan">Michigan</option>
+        {% for state in stateCounties.keys() %}
+          <option value="{{ state }}">{{ state }}</option>
+        {% endfor %}
       </select>
 
       <label>County</label>
