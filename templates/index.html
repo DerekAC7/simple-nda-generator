@@ -125,9 +125,16 @@
       <label>State Governing Law</label>
       <select name="state_law" id="state_law" onchange="updateCountyDropdown()" required>
         <option value="">Select a state</option>
-        {% for state in stateCounties.keys() %}
-          <option value="{{ state }}">{{ state }}</option>
-        {% endfor %}
+        <option value="California">California</option>
+        <option value="Texas">Texas</option>
+        <option value="New York">New York</option>
+        <option value="Florida">Florida</option>
+        <option value="Illinois">Illinois</option>
+        <option value="Pennsylvania">Pennsylvania</option>
+        <option value="Ohio">Ohio</option>
+        <option value="Georgia">Georgia</option>
+        <option value="North Carolina">North Carolina</option>
+        <option value="Michigan">Michigan</option>
       </select>
 
       <label>County</label>
